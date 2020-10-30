@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Clouds/Clouds.shader" type="Shader" id=1]
+[ext_resource path="res://Clouds/textures/Clouds.png" type="Texture" id=2]
+[ext_resource path="res://Clouds/Clouds.gd" type="Script" id=3]
+
+[sub_resource type="ShaderMaterial" id=7]
+shader = ExtResource( 1 )
+shader_param/sunDir = Vector2( 0, 1 )
+
+[node name="Clouds" type="Node2D"]
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+layer = 0
+
+[node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground"]
+process_priority = 1
+z_index = 10
+
+[node name="Clouds" type="Sprite" parent="ParallaxBackground/ParallaxLayer2"]
+material = SubResource( 7 )
+texture = ExtResource( 2 )
+script = ExtResource( 3 )

@@ -1,0 +1,20 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Water/Water.gd" type="Script" id=1]
+[ext_resource path="res://Water/textures/waterBase.png" type="Texture" id=2]
+[ext_resource path="res://Water/Water.shader" type="Shader" id=3]
+
+[sub_resource type="ShaderMaterial" id=3]
+shader = ExtResource( 3 )
+shader_param/parameters = null
+shader_param/sunDir = Vector2( 0, 1 )
+
+[sub_resource type="ArrayMesh" id=2]
+
+[node name="Water" type="Node2D"]
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+material = SubResource( 3 )
+mesh = SubResource( 2 )
+texture = ExtResource( 2 )
+script = ExtResource( 1 )

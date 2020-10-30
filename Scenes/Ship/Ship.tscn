@@ -1,0 +1,27 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://Ship/textures/Ship.png" type="Texture" id=1]
+[ext_resource path="res://Ship/Ship.gd" type="Script" id=2]
+[ext_resource path="res://Ship/Ship.shader" type="Shader" id=3]
+[ext_resource path="res://Ship/textures/ShipNight.png" type="Texture" id=4]
+
+[sub_resource type="Shader" id=3]
+
+[sub_resource type="ShaderMaterial" id=4]
+shader = SubResource( 3 )
+
+[sub_resource type="ShaderMaterial" id=5]
+shader = ExtResource( 3 )
+shader_param/sunDir = Vector2( 0, 1 )
+
+[node name="Ship" type="Node2D"]
+material = SubResource( 4 )
+
+[node name="Sprite" type="Sprite" parent="."]
+material = SubResource( 5 )
+texture = ExtResource( 1 )
+normal_map = ExtResource( 4 )
+script = ExtResource( 2 )
+
+[node name="Camera2D" type="Camera2D" parent="Sprite"]
+current = true

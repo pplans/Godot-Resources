@@ -1,0 +1,150 @@
+[gd_scene load_steps=26 format=2]
+
+[ext_resource path="res://Water/Water.gd" type="Script" id=1]
+[ext_resource path="res://Ship/Ship.gd" type="Script" id=2]
+[ext_resource path="res://Clouds/Clouds.gd" type="Script" id=3]
+[ext_resource path="res://Sky/Sky.gd" type="Script" id=4]
+[ext_resource path="res://Clouds/Clouds.shader" type="Shader" id=5]
+[ext_resource path="res://Sky/sky.shader" type="Shader" id=6]
+[ext_resource path="res://Water/Water.shader" type="Shader" id=7]
+[ext_resource path="res://Ship/Ship.shader" type="Shader" id=8]
+[ext_resource path="res://Water/textures/waterBase.png" type="Texture" id=9]
+[ext_resource path="res://Ship/textures/Ship.png" type="Texture" id=10]
+[ext_resource path="res://Ship/textures/ShipNight.png" type="Texture" id=11]
+[ext_resource path="res://Clouds/textures/Clouds.png" type="Texture" id=12]
+[ext_resource path="res://Ship/textures/WaterSplash.png" type="Texture" id=13]
+[ext_resource path="res://Sky/textures/stars.png" type="Texture" id=14]
+
+[sub_resource type="Shader" id=1]
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = SubResource( 1 )
+
+[sub_resource type="ShaderMaterial" id=3]
+shader = ExtResource( 8 )
+shader_param/sunDir = Vector2( 0, 1 )
+
+[sub_resource type="ShaderMaterial" id=4]
+shader = ExtResource( 7 )
+shader_param/parameters = null
+shader_param/sunDir = Vector2( 0, 1 )
+
+[sub_resource type="ArrayMesh" id=5]
+
+[sub_resource type="ShaderMaterial" id=6]
+shader = ExtResource( 7 )
+shader_param/parameters = null
+shader_param/sunDir = Vector2( 0, 1 )
+
+[sub_resource type="Curve" id=7]
+max_value = 5.0
+_data = [ Vector2( 0.00632912, 0.0090909 ), 0.0, 0.0, 0, 0, Vector2( 0.993671, 1.18182 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=8]
+curve = SubResource( 7 )
+
+[sub_resource type="ParticlesMaterial" id=9]
+lifetime_randomness = 0.35
+emission_shape = 1
+emission_sphere_radius = 1.0
+flag_disable_z = true
+direction = Vector3( 0, -1, 1 )
+spread = 36.72
+gravity = Vector3( 0, 98, 0 )
+initial_velocity = 114.94
+initial_velocity_random = 0.77
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+scale_curve = SubResource( 8 )
+
+[sub_resource type="ShaderMaterial" id=10]
+shader = ExtResource( 6 )
+shader_param/sunDir = Vector2( 0, 1 )
+
+[sub_resource type="ShaderMaterial" id=11]
+shader = ExtResource( 5 )
+shader_param/sunDir = Vector2( 0, 1 )
+
+[node name="Node2D" type="Node2D"]
+
+[node name="CanvasLayerPlayer" type="CanvasLayer" parent="."]
+
+[node name="Ship" type="Node2D" parent="CanvasLayerPlayer"]
+material = SubResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="CanvasLayerPlayer/Ship"]
+material = SubResource( 3 )
+position = Vector2( 512, 408 )
+z_index = 10
+z_as_relative = false
+texture = ExtResource( 10 )
+normal_map = ExtResource( 11 )
+script = ExtResource( 2 )
+
+[node name="Camera2D" type="Camera2D" parent="CanvasLayerPlayer/Ship/Sprite"]
+position = Vector2( 0, -104 )
+z_as_relative = false
+
+[node name="Water2" type="Node2D" parent="CanvasLayerPlayer/Ship/Sprite/Camera2D"]
+position = Vector2( -760, 176 )
+scale = Vector2( 1516, 200 )
+z_as_relative = false
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="CanvasLayerPlayer/Ship/Sprite/Camera2D/Water2"]
+material = SubResource( 4 )
+mesh = SubResource( 5 )
+texture = ExtResource( 9 )
+script = ExtResource( 1 )
+Amplitude = 0.15
+Frequency = 32.0
+
+[node name="Water" type="Node2D" parent="CanvasLayerPlayer/Ship/Sprite/Camera2D"]
+position = Vector2( -512, 200 )
+scale = Vector2( 1028, 200 )
+z_index = 100
+z_as_relative = false
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="CanvasLayerPlayer/Ship/Sprite/Camera2D/Water"]
+material = SubResource( 6 )
+mesh = SubResource( 5 )
+texture = ExtResource( 9 )
+script = ExtResource( 1 )
+Amplitude = 0.1
+Frequency = 32.0
+
+[node name="Particles2D" type="Particles2D" parent="CanvasLayerPlayer/Ship/Sprite"]
+visible = false
+position = Vector2( 120, 128 )
+process_material = SubResource( 9 )
+texture = ExtResource( 13 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -100
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
+material = SubResource( 10 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 14 )
+expand = true
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Clouds" type="Node2D" parent="CanvasLayer"]
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="CanvasLayer/Clouds"]
+layer = 0
+
+[node name="ParallaxLayer2" type="ParallaxLayer" parent="CanvasLayer/Clouds/ParallaxBackground"]
+process_priority = 1
+z_index = 10
+motion_scale = Vector2( 10, 1 )
+motion_mirroring = Vector2( 1024, 0 )
+
+[node name="Clouds" type="Sprite" parent="CanvasLayer/Clouds/ParallaxBackground/ParallaxLayer2"]
+material = SubResource( 11 )
+position = Vector2( 512, 256 )
+texture = ExtResource( 12 )
+script = ExtResource( 3 )
