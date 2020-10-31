@@ -27,6 +27,7 @@ shader_type canvas_item;
 render_mode unshaded;
 
 uniform vec4 color : hint_color = vec4(0., 1., 0., 1.);
+uniform vec2 scale = vec2(0.8, 1.);
 uniform float slimeOffsetScaleX = 0.05;
 uniform float slimeOffsetScaleFreq = 16.;
 uniform float deformScale = 0.04;
@@ -75,7 +76,9 @@ void fragment()
 	// first get first texture sample
 	float dirX = 0.;
 	dirX = .1*sin(TIME);
-	vec2 uv = UV+vec2(clamp(dirX, -.1, .1)*(1.-UV.y)*(1.-UV.y), 0.);
+	vec2 uv = UV;
+	uv = uv/scale-(1.-scale);
+	uv = uv+vec2(clamp(dirX, -.1, .1)*(1.-UV.y)*(1.-UV.y), 0.);
 	vec4 slimeFix = texture(TEXTURE, uv);
 	vec4 slime = slimeFix;
 	
