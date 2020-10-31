@@ -26,6 +26,7 @@
 shader_type canvas_item;
 render_mode unshaded;
 
+uniform vec4 color : hint_color = vec4(0., 1., 0., 1.);
 uniform float slimeOffsetScaleX = 0.05;
 uniform float slimeOffsetScaleFreq = 16.;
 uniform float deformScale = 0.04;
@@ -94,7 +95,7 @@ void fragment()
 	float attenuation = depth;
 	vec4 backgroundColor = texture(NORMAL_TEXTURE, SCREEN_UV+attenuation*deformScale*(-1.+2.*slime.rg));
 	float baseColor = mix(1.-slime.b, slime.b, 0.5*(1.+sin(TIME)));
-	COLOR = vec4(mix(mix(baseColor, slime.r, 0.5)*vec3(0., 1., 0.), backgroundColor.rgb, mix(.2, .1, alpha)), alpha);
+	COLOR = vec4(mix(mix(baseColor, slime.r, 0.5)*color.rgb, backgroundColor.rgb, mix(.2, .1, alpha)), color.a*alpha);
 	//COLOR = vec4(attenuation>0.9?vec4(1., 0., 0., 1.):vec4(1.));
 	//COLOR = vec4(slimeOffsetScaleX);
 }
