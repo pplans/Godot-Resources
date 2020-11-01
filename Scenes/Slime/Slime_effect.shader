@@ -26,13 +26,14 @@
 shader_type canvas_item;
 render_mode unshaded;
 
-uniform vec4 color : hint_color = vec4(0., 1., 0., 1.);
-uniform vec2 scale = vec2(0.8, 1.);
-uniform float slimeOffsetScaleX = 0.05;
-uniform float slimeOffsetScaleFreq = 16.;
-uniform float deformScale = 0.04;
-uniform float sharpness = 1.;
-uniform float flowPower = 0.;
+uniform vec4 uColor : hint_color = vec4(0., 1., 0., 1.);
+uniform vec2 uScale = vec2(0.8, 1.);
+uniform float uDirX = 0.;
+uniform float uSlimeOffsetScaleX = 0.05;
+uniform float uSlimeOffsetScaleFreq = 16.;
+uniform float uDeformScale = 0.04;
+uniform float uSharpness = 1.;
+uniform float uFlowPower = 0.;
 
 float remap01(float x, float m_, float _m)
 {
@@ -74,18 +75,19 @@ void fragment()
     float blend_factor;
     vec2 ouv1, ouv2;
 	// first get first texture sample
-	float dirX = 0.;
-	dirX = .1*sin(TIME);
+	float dirX = uDirX;
+	if(dirX==0.)
+		dirX = .1*sin(TIME);
 	vec2 uv = UV;
-	uv = uv/scale-(1.-scale);
+	uv = uv/uScale-(1.-uScale);
 	uv = uv+vec2(clamp(dirX, -.1, .1)*(1.-UV.y)*(1.-UV.y), 0.);
 	vec4 slimeFix = texture(TEXTURE, uv);
 	vec4 slime = slimeFix;
 	
-	if(flowPower>0.)
+	if(uFlowPower>0.)
 	{
-		flowmap(TIME, 2.*flowPower, flowPower, 0.,
-		    -1.+2.*slimeFix.rg, flowPower*0.8, vec2(flowPower*0.4),
+		flowmap(TIME, 2.*uFlowPower, uFlowPower, 0.,
+		    -1.+2.*slimeFix.rg, uFlowPower*0.8, vec2(uFlowPower*0.4),
 		    uv,
 		    blend_factor, ouv1, ouv2);
 		
@@ -94,11 +96,11 @@ void fragment()
 	}
 	
 	float depth = slime.a;
-	float alpha = pow(depth, mix(0.5, 0.2, sharpness));
+	float alpha = pow(depth, mix(0.5, 0.2, uSharpness));
 	float attenuation = depth;
-	vec4 backgroundColor = texture(NORMAL_TEXTURE, SCREEN_UV+attenuation*deformScale*(-1.+2.*slime.rg));
+	vec4 backgroundColor = texture(NORMAL_TEXTURE, SCREEN_UV+attenuation*uDeformScale*(-1.+2.*slime.rg));
 	float baseColor = mix(1.-slime.b, slime.b, 0.5*(1.+sin(TIME)));
-	COLOR = vec4(mix(mix(baseColor, slime.r, 0.5)*color.rgb, backgroundColor.rgb, mix(.2, .1, alpha)), color.a*alpha);
+	COLOR = vec4(mix(mix(baseColor, slime.r, 0.5)*uColor.rgb, backgroundColor.rgb, mix(.2, .1, alpha)), uColor.a*alpha);
 	//COLOR = vec4(attenuation>0.9?vec4(1., 0., 0., 1.):vec4(1.));
 	//COLOR = vec4(slimeOffsetScaleX);
 }

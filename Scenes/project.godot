@@ -24,6 +24,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Sky/Sky.gd"
 }, {
+"base": "Sprite",
+"class": "SlimeWithEffect",
+"language": "GDScript",
+"path": "res://Slime/SlimeWithEffect.tres.gd"
+}, {
 "base": "MeshInstance2D",
 "class": "Water2D",
 "language": "GDScript",
@@ -33,6 +38,7 @@ _global_script_class_icons={
 "Clouds2D": "",
 "Ship2D": "",
 "Sky2D": "",
+"SlimeWithEffect": "",
 "Water2D": ""
 }
 
@@ -41,6 +47,10 @@ _global_script_class_icons={
 config/name="Test"
 run/main_scene="res://Main.tscn"
 config/icon="res://icon.png"
+
+[debug]
+
+settings/fps/force_fps=60
 
 [display]
 
@@ -75,4 +85,6 @@ ui_down={
 
 [rendering]
 
+quality/intended_usage/framebuffer_allocation=0
+quality/intended_usage/framebuffer_allocation.mobile=0
 environment/default_environment="res://default_env.tres"
