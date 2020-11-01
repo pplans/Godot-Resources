@@ -7,13 +7,13 @@
 [sub_resource type="ShaderMaterial" id=1]
 shader = ExtResource( 2 )
 shader_param/uColor = Color( 0, 1, 0, 1 )
-shader_param/uScale = Vector2( 0.8, 1 )
+shader_param/uScale = Vector2( 0.5, 1 )
 shader_param/uDirX = 0.0
 shader_param/uSlimeOffsetScaleX = 0.05
 shader_param/uSlimeOffsetScaleFreq = 16.0
-shader_param/uDeformScale = 0.04
-shader_param/uSharpness = 1.0
-shader_param/uFlowPower = 0.0
+shader_param/uDeformScale = 0.02
+shader_param/uSharpness = 0.2
+shader_param/uFlowPower = 0.6
 
 [sub_resource type="GradientTexture" id=2]
 

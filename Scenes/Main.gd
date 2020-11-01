@@ -73,4 +73,4 @@ func _process(delta):
 	m_water2.SetHorizontalPos(m_player.GetPos().x)
 	m_elapsedTime += delta;
 	var sT = sin(m_elapsedTime);
-	m_slimeDemo.SetDirectionX(0.1*sT)
+	m_slimeDemo.SetDirectionX(sT)

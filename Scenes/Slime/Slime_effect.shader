@@ -75,11 +75,11 @@ void fragment()
     float blend_factor;
     vec2 ouv1, ouv2;
 	// first get first texture sample
-	float dirX = uDirX;
+	float dirX = 0.1*clamp(uDirX, -1., 1.);
 	if(dirX==0.)
 		dirX = .1*sin(TIME);
 	vec2 uv = UV;
-	uv = uv/uScale-(1.-uScale);
+	uv = (uv-0.5*(1.-uScale))/uScale;
 	uv = uv+vec2(clamp(dirX, -.1, .1)*(1.-UV.y)*(1.-UV.y), 0.);
 	vec4 slimeFix = texture(TEXTURE, uv);
 	vec4 slime = slimeFix;
@@ -103,4 +103,5 @@ void fragment()
 	COLOR = vec4(mix(mix(baseColor, slime.r, 0.5)*uColor.rgb, backgroundColor.rgb, mix(.2, .1, alpha)), uColor.a*alpha);
 	//COLOR = vec4(attenuation>0.9?vec4(1., 0., 0., 1.):vec4(1.));
 	//COLOR = vec4(slimeOffsetScaleX);
+	//COLOR = vec4(uv, 0., 1.);
 }
